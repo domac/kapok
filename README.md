@@ -7,4 +7,6 @@
 go get github.com/gin-gonic/gin
 
 go get github.com/codegangsta/cli
+
+go get github.com/coreos/go-etcd
 ```

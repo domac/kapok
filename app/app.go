@@ -50,7 +50,7 @@ func appAction(c *cli.Context) (err error) {
 }
 
 //程序主入口
-func Main() {
+func Startup() {
 	app := cli.NewApp()
 	app.Name = "kapok"
 	app.Usage = "a synchronized proxy tool"
