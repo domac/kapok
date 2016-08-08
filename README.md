@@ -50,11 +50,11 @@ Running 60s http://192.168.100.101/test/data/get.do
 200 connection(s) running concurrently                                                                                                                                                  
 Finish 200 concurrecy load!             
 
-405943 requests in 60.000062147s, 75.68MB read                                                                                                                                         
-Requests/sec:           18864.14                                                                                                                                                       
-Transfer/sec:           1.56MB                                                                                                                                                         
-Avg Req Time:           721.285µs                                                                                                                                                      
-Fastest Request:        1m0.001460205s                                                                                                                                                 
-Slowest Request:        540.968963ms                                                                                                                                                   
-Number of Errors:       0   
+438251 requests in 29.589963935s, 49.32MB read                                                                                                                                         
+Requests/sec:           14810.80                                                                                                                                                       
+Transfer/sec:           1.67MB                                                                                                                                                         
+Avg Req Time:           1.350366ms                                                                                                                                                     
+Fastest Request:        1m0.003001898s                                                                                                                                                 
+Slowest Request:        1.063586625s                                                                                                                                                   
+Number of Errors:       0    
 ```

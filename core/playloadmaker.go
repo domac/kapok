@@ -74,7 +74,7 @@ func Playload(
 		}
 	}
 
-	fmt.Printf("Finish %v concurrecy load! \n", responders)
+	fmt.Printf("Finish %v concurrecy load! \n\n", responders)
 	if aggStats.NumRequests == 0 {
 		return errors.New("No statistics collected / no requests found ! ")
 	}
