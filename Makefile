@@ -6,7 +6,7 @@ test:
 	go test -v . 
 
 format:
-	gofmt -w ./app ./core ./etcd ./plugins ./routes ./util ./main.go
+	gofmt -w ./app ./core ./etcd  ./routes ./util ./main.go
 
 build:
 	# 设置交叉编译参数:
