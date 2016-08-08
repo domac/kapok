@@ -23,7 +23,7 @@ func (aggStats *Stats) PrintStats(responders int) (res string) {
 	avgReqTime := aggStats.Duration / time.Duration(aggStats.NumRequests)
 	bytesRate := float64(aggStats.RespSize) / avgThreadDur.Seconds()
 	res += fmt.Sprintf("%v requests in %v, %v read\n", aggStats.NumRequests, avgThreadDur, util.ByteSize{float64(aggStats.RespSize)})
-	res += fmt.Sprintf("Requests/sec:\t\t%.2f\nTransfer/sec:\t\t%v\nAvg Req Time:\t\t%v\n", reqRate, util.ByteSize{bytesRate}, avgReqTime)
+	res += fmt.Sprintf("Requests/second (QPS):\t%.2f\nTransfer/second:\t%v\nAvg Request Time:\t%v\n", reqRate, util.ByteSize{bytesRate}, avgReqTime)
 	res += fmt.Sprintf("Fastest Request:\t%v\n", aggStats.MinRequestTime)
 	res += fmt.Sprintf("Slowest Request:\t%v\n", aggStats.MaxRequestTime)
 	res += fmt.Sprintf("Number of Errors:\t%v\n", aggStats.NumErrs)

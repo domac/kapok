@@ -46,15 +46,15 @@ GLOBAL OPTIONS:
 结果输出示例：
 
 ```
-Running 60s http://192.168.100.101/test/data/get.do                                                                                                                                                     
-200 connection(s) running concurrently                                                                                                                                                  
-Finish 200 concurrecy load!             
-
-438251 requests in 29.589963935s, 49.32MB read                                                                                                                                         
-Requests/sec:           14810.80                                                                                                                                                       
-Transfer/sec:           1.67MB                                                                                                                                                         
-Avg Req Time:           1.350366ms                                                                                                                                                     
-Fastest Request:        1m0.003001898s                                                                                                                                                 
-Slowest Request:        1.063586625s                                                                                                                                                   
-Number of Errors:       0    
+Running 30s http://192.168.100.101/test/data/get.do                                                                                                                                                     
+20 connection(s) running concurrently                                                                                                                                                  
+Finish 20 concurrecy load!                                                                                                                                                             
+                                                                                                                                                                                       
+441818 requests in 29.558398248s, 49.72MB read                                                                                                                                         
+Requests/second (QPS):  14947.29                                                                                                                                                       
+Transfer/second:        1.68MB                                                                                                                                                         
+Avg Request Time:       1.338035ms                                                                                                                                                     
+Fastest Request:        1m0.002972795s                                                                                                                                                 
+Slowest Request:        1.234496241s                                                                                                                                                   
+Number of Errors:       0      
 ```
