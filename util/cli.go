@@ -41,3 +41,12 @@ func AddFlagBool(sf cli.BoolFlag) cli.BoolFlag {
 	}
 	return sf
 }
+
+func AddFlagInt(sf cli.IntFlag) cli.IntFlag {
+	if _, ok := appFlags[sf.Name]; ok {
+		panic(fmt.Sprintf("flag %s denined", sf.Name))
+	} else {
+		appFlags[sf.Name] = sf
+	}
+	return sf
+}

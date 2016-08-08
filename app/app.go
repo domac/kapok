@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/codegangsta/cli"
 	"github.com/gin-gonic/gin"
+	kapok "github.com/phillihq/kapok/core"
 	router "github.com/phillihq/kapok/routes"
 	"github.com/phillihq/kapok/util"
 	"os"
@@ -15,8 +16,8 @@ func appAction(c *cli.Context) (err error) {
 	webFlag := c.Bool("web")
 	if webFlag == false {
 		//以命令行的方式启动
-		println("========== cli")
-		return nil
+		target := os.Args[len(os.Args)-1]
+		return kapok.CreatePlayLoad(c, target)
 	} else {
 		//以web的方式启动
 		if debugFlag {
@@ -35,7 +36,7 @@ func Startup() {
 	flagsInit()
 	app := cli.NewApp()
 	app.Name = "kapok"
-	app.Usage = "a data service tool"
+	app.Usage = "a simple http/https benchmark utility"
 	app.Version = APP_VERSION
 	app.Flags = util.GetAppFlags()
 	app.Action = util.ActionWrapper(appAction)
