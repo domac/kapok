@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+//测试数据
 func TestEtcdGet(t *testing.T) {
 	ds, err := NewEtcdDataSource("http://192.168.139.134:2379", time.Second*3)
 	if err != nil {

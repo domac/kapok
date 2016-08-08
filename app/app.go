@@ -8,52 +8,34 @@ import (
 	"os"
 )
 
-//应用版本
-const APP_VERSION = "0.0.2"
-
-//配置文件参数
-var conff = util.AddFlagString(cli.StringFlag{
-	Name:   "config",
-	EnvVar: "KAPOK_CONFIG",
-	Value:  "config.json",
-	Usage:  "the path of your config file",
-})
-
-//应用web端口
-var portf = util.AddFlagString(cli.StringFlag{
-	Name:   "port",
-	EnvVar: "KAPOK_PORT",
-	Value:  "9090",
-	Usage:  "the port for web application",
-})
-
-//debug开关
-var debugf = util.AddFlagBool(cli.BoolFlag{
-	Name:  "debug",
-	Usage: "open the debug mode",
-})
-
 //应用启动Action
 func appAction(c *cli.Context) (err error) {
-	configFilePath := c.String(conff.Name)
-	portFlag := c.String(portf.Name)
-	debugFlag := c.Bool(debugf.Name)
-	if debugFlag {
-		gin.SetMode(gin.DebugMode)
+	portFlag := c.String("port")
+	debugFlag := c.Bool("debug")
+	webFlag := c.Bool("web")
+	if webFlag == false {
+		//以命令行的方式启动
+		println("========== cli")
+		return nil
 	} else {
-		gin.SetMode(gin.ReleaseMode)
+		//以web的方式启动
+		if debugFlag {
+			gin.SetMode(gin.DebugMode)
+		} else {
+			gin.SetMode(gin.ReleaseMode)
+		}
+		r := gin.New()
+		router.RegisterRoutes(r, c)
+		return r.Run(":" + portFlag)
 	}
-	println(configFilePath)
-	r := gin.New()
-	router.RegisterRoutes(r, APP_VERSION)
-	return r.Run(":" + portFlag)
 }
 
 //程序主入口
 func Startup() {
+	flagsInit()
 	app := cli.NewApp()
 	app.Name = "kapok"
-	app.Usage = "a synchronized proxy tool"
+	app.Usage = "a data service tool"
 	app.Version = APP_VERSION
 	app.Flags = util.GetAppFlags()
 	app.Action = util.ActionWrapper(appAction)
