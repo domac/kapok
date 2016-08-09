@@ -58,3 +58,30 @@ Fastest Request:        1m0.002972795s
 Slowest Request:        1.234496241s                                                                                                                                                   
 Number of Errors:       0      
 ```
+
+一、RESTful API
+
+```
+  http://localhost:9090/bench
+```
+
+```
+调用参数： 
+
+- url:              the test url
+
+- concurrecy:       number of concurrent connections to use
+
+- duration:         duration of test in seconds
+
+- timeout:          socket/request timeout in (ms)
+
+- method:           http method， default : GET
+
+- header:           the http headers sent to the target url
+
+- keepalive:        if keep-alives are disabled when value is "1"  default : "0"
+
+- compress:         if prevents sending the "Accept-Encoding: gzip" header when value is "1"  default : "0"
+
+```

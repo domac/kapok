@@ -44,9 +44,11 @@ func NewWorker(
 }
 
 //HTTP请求
-func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, duration time.Duration) {
+func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, num2x int, num5x int, duration time.Duration) {
 	respSize = -1
 	duration = -1
+	num5x = 0
+	num2x = 0
 	loadUrl = util.EscapeUrlStr(loadUrl)
 
 	req, err := http.NewRequest(method, loadUrl, nil)
@@ -58,7 +60,7 @@ func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, d
 	start := time.Now()
 	resp, err := httpClient.Do(req)
 	if err != nil {
-		fmt.Println("redirect?")
+		//fmt.Println("redirect error")
 		rr, ok := err.(*url.Error)
 		if !ok {
 			fmt.Println("An error occured doing request", err, rr)
@@ -66,7 +68,7 @@ func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, d
 		}
 	}
 	if resp == nil {
-		fmt.Println("empty response")
+		//fmt.Println("empty response error")
 		return
 	}
 	defer func() {
@@ -81,13 +83,15 @@ func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, d
 	if resp.StatusCode == http.StatusOK {
 		duration = time.Since(start)
 		respSize = len(body) + int(util.EstimateHttpHeadersSize(resp.Header))
+		num2x += 1
 	} else if resp.StatusCode == http.StatusMovedPermanently || resp.StatusCode == http.StatusTemporaryRedirect {
 		duration = time.Since(start)
 		respSize = int(resp.ContentLength) + int(util.EstimateHttpHeadersSize(resp.Header))
+	} else if resp.StatusCode >= 500 {
+		num5x += 1
 	} else {
-		fmt.Println("received status code", resp.StatusCode, "from", resp.Header, "content", string(body), req)
+		//fmt.Println("received status code", resp.StatusCode, "from", resp.Header, "content", string(body), req)
 	}
-
 	return
 }
 
@@ -116,14 +120,16 @@ func (w *Worker) RunSingleNode() {
 
 	//持续间隔
 	for time.Since(start).Seconds() <= float64(w.duration) && atomic.LoadInt32(&w.interrupted) == 0 {
-		respSize, reqDur := DoRequest(httpClient, w.method, w.testUrl)
+		respSize, num2x, num5x, reqDur := DoRequest(httpClient, w.method, w.testUrl)
 		if respSize > 0 {
 			stats.RespSize += int64(respSize)
 			stats.Duration += reqDur
 			stats.MaxRequestTime = util.MaxDuration(reqDur, stats.MaxRequestTime)
 			stats.MinRequestTime = util.MinDuration(reqDur, stats.MinRequestTime)
 			stats.NumRequests++
+			stats.Num2X += num2x
 		} else {
+			stats.Num5X += num5x
 			stats.NumErrs++
 		}
 	}

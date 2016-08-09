@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -19,7 +20,12 @@ func CreatePlayLoad(c *cli.Context, url string) error {
 	header := c.String("H")
 	ka := c.Bool("k")
 	compress := c.Bool("compress")
-	return Playload(url, conn_num, duration, timeout, method, header, ka, compress)
+	res, err := Playload(url, conn_num, duration, timeout, method, header, ka, compress)
+	if err != nil {
+		return err
+	}
+	fmt.Println(res)
+	return nil
 }
 
 //载荷开启
@@ -31,21 +37,21 @@ func Playload(
 	method string,
 	header string,
 	ka bool,
-	co bool) error {
+	co bool) (string, error) {
 
 	//检查URL的合法性
 	pUrl, err := url.Parse(testUrl)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if pUrl.Host == "" {
-		return errors.New("the url is incorrect!")
+		return "", errors.New("the url is incorrect!")
 	}
 
 	statsChann := make(chan *Stats, concurrecy)
 	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt)
+	signal.Notify(sigChan, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT, syscall.SIGSTOP)
 
 	fmt.Printf("Running %vs %v\n%v connection(s) running concurrently\n", duration, testUrl, concurrecy)
 
@@ -70,14 +76,15 @@ func Playload(
 			aggStats.Duration += stats.Duration
 			aggStats.MaxRequestTime += stats.MaxRequestTime
 			aggStats.MinRequestTime += stats.MinRequestTime
+			aggStats.Num2X += stats.Num2X
+			aggStats.Num5X += stats.Num5X
 			responders++
 		}
 	}
 
 	fmt.Printf("Finish %v concurrecy load! \n\n", responders)
 	if aggStats.NumRequests == 0 {
-		return errors.New("No statistics collected / no requests found ! ")
+		return "", errors.New("No statistics collected / no requests found ! ")
 	}
-	fmt.Println(aggStats.PrintStats(responders))
-	return nil
+	return aggStats.PrintStats(responders), nil
 }

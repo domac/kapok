@@ -14,6 +14,8 @@ type Stats struct {
 	MaxRequestTime time.Duration
 	NumRequests    int
 	NumErrs        int
+	Num5X          int
+	Num2X          int
 }
 
 //输出统计信息
@@ -27,5 +29,7 @@ func (aggStats *Stats) PrintStats(responders int) (res string) {
 	res += fmt.Sprintf("Fastest Request:\t%v\n", aggStats.MinRequestTime)
 	res += fmt.Sprintf("Slowest Request:\t%v\n", aggStats.MaxRequestTime)
 	res += fmt.Sprintf("Number of Errors:\t%v\n", aggStats.NumErrs)
+	res += fmt.Sprintf("Number of 2XX:\t%v\n", aggStats.Num2X)
+	res += fmt.Sprintf("Number of 5XX:\t%v\n", aggStats.Num5X)
 	return
 }
