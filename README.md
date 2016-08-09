@@ -15,7 +15,7 @@ USAGE:
    ./kapok [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.3
+   0.1.0
 
 COMMANDS:
    help, h	Shows a list of commands or help for one command
@@ -59,7 +59,7 @@ Slowest Request:        1.234496241s
 Number of Errors:       0      
 ```
 
-一、RESTful API
+二、RESTful API
 
 ```
   http://localhost:9090/bench
