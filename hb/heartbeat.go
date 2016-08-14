@@ -7,9 +7,8 @@ import (
 )
 
 //开启心跳
-func OpenHeartBeat() {
-	time.Sleep(3 * time.Second)
-	doctor := NewDoctor(":8888")
+func OpenHeartBeat(port string) {
+	doctor := NewDoctor(":" + port)
 	notify, err := doctor.Watch()
 	if err != nil {
 		fmt.Println(err)

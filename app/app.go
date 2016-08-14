@@ -30,7 +30,7 @@ func appAction(c *cli.Context) (err error) {
 
 		//开启心跳
 		if heartbeat {
-			go hb.OpenHeartBeat()
+			go hb.OpenHeartBeat("8888")
 		}
 
 		r := gin.New()
