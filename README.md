@@ -15,23 +15,23 @@ USAGE:
    ./kapok [global options] command [command options] [arguments...]
 
 VERSION:
-   0.1.0
+   0.2.0
 
 COMMANDS:
    help, h	Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   -k                   if keep-alives are disabled                                                                                                                                    
-   --compress           if prevents sending the "Accept-Encoding: gzip" header                                                                                                         
-   --hb                 open heartbreat watcher                                                                                                                                        
-   --web                start the application in web                                                                                                                                   
-   --port "9090"        the port for web application [$KAPOK_PORT]                                                                                                                     
-   --debug              open the debug mode                                                                                                                                            
+   -k                   if keep-alives are disabled                                                                                                                                                                                                                         
    -H                   the http headers sent to the target url                                                                                                                        
    -c "10"              number of concurrent connections to use                                                                                                                        
    -d "10"              duration of test in seconds                                                                                                                                    
    -t "1000"            socket/request timeout in (ms)                                                                                                                                 
-   -m "GET"             http method                                                                                                                                                    
+   -m "GET"             http method      
+   --compress           if prevents sending the "Accept-Encoding: gzip" header                                                                                                         
+   --hb                 open heartbreat watcher, it need use --web first                                                                                                                                       
+   --web                start the application in web                                                                                                                                   
+   --port "9090"        the port for web application [$KAPOK_PORT]                                                                                                                     
+   --debug              open the debug mode                                                                                                                                                                                                     
    --help, -h           show help                                                                                                                                                      
    --version, -v        print the version 
 ```
