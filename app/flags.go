@@ -82,4 +82,9 @@ func flagsInit() {
 		Usage: "if prevents sending the \"Accept-Encoding: gzip\" header",
 	})
 
+	//开启心跳
+	util.AddFlagBool(cli.BoolFlag{
+		Name:  "hb",
+		Usage: "open heartbreat watcher",
+	})
 }

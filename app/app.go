@@ -4,6 +4,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/gin-gonic/gin"
 	kapok "github.com/phillihq/kapok/core"
+	"github.com/phillihq/kapok/hb"
 	router "github.com/phillihq/kapok/routes"
 	"github.com/phillihq/kapok/util"
 	"os"
@@ -14,6 +15,7 @@ func appAction(c *cli.Context) (err error) {
 	portFlag := c.String("port")
 	debugFlag := c.Bool("debug")
 	webFlag := c.Bool("web")
+	heartbeat := c.Bool("hb")
 	if webFlag == false {
 		//以命令行的方式启动
 		target := os.Args[len(os.Args)-1]
@@ -25,6 +27,12 @@ func appAction(c *cli.Context) (err error) {
 		} else {
 			gin.SetMode(gin.ReleaseMode)
 		}
+
+		//开启心跳
+		if heartbeat {
+			go hb.OpenHeartBeat()
+		}
+
 		r := gin.New()
 		router.RegisterRoutes(r, c)
 		return r.Run(":" + portFlag)
