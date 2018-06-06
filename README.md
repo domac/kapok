@@ -1,9 +1,9 @@
 # kapok
 
-a simple http/https benchmark utility
+简单高效的HTTP压测工具，支持GET和POST等方法处理，支持HTTP Header自定义请求
 
 
-### 测试说明
+### 使用说明
 
 ```
 $ go run main.go -help
@@ -21,18 +21,15 @@ COMMANDS:
    help, h	Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --dataFile 		load the par which store in the file
-   --port "9090"	the port for web application [$KAPOK_PORT]
    -c "10"		number of concurrent connections to use
-   -d "10"		duration of test in seconds
+   -t "1000"		socket/request timeout in (ms)
    -m "GET"		http method
    --disableka		disable keep-alives
-   --compress		if prevents sending the "Accept-Encoding: gzip" header
-   --hb			open heartbreat watcher
-   --web		start the application in web
    --debug		open the debug mode
-   -t "1000"		socket/request timeout in (ms)
+   -d "10"		duration of test in seconds
    -H 			the http headers sent to the target url
+   --compress		if prevents sending the "Accept-Encoding: gzip" header
+   --dataFile 		load the par which store in the file
    --help, -h		show help
    --version, -v	print the version
 ```
@@ -42,13 +39,19 @@ GLOBAL OPTIONS:
 一、命令行运行方式
 
 ```
- $ ./kapok -c 200 -d 60 http://192.168.100.101/test/data/get.do
+ $ ./kapok -c 200 -d 60 http://192.168.100.101/test/data/send.do
+```
+
+二、POST方式
+
+```
+$ ./kapok -m GET  -c 2 -d 30 -dataFile=/apps/body.json -H  'Content-Seq:444;TEST-num:cccxxx'  'http://192.168.100.101/test/data/send.do'
 ```
 
 结果输出示例：
 
 ```
-Running 30s http://192.168.100.101/test/data/get.do                                                                                                                                                     
+Running 30s http://192.168.100.101/test/data/send.do                                                                                                                                                     
 20 connection(s) running concurrently                                                                                                                                                  
 Finish 20 concurrecy load!                                                                                                                                                             
                                                                                                                                                                                        

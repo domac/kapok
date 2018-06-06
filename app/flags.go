@@ -7,19 +7,6 @@ import (
 
 //参数初始化
 func flagsInit() {
-	//是否以web的形式启动
-	util.AddFlagBool(cli.BoolFlag{
-		Name:  "web",
-		Usage: "start the application in web",
-	})
-
-	//应用web端口
-	util.AddFlagString(cli.StringFlag{
-		Name:   "port",
-		EnvVar: "KAPOK_PORT",
-		Value:  "9090",
-		Usage:  "the port for web application",
-	})
 
 	//debug开关
 	util.AddFlagBool(cli.BoolFlag{
@@ -72,12 +59,6 @@ func flagsInit() {
 	util.AddFlagBool(cli.BoolFlag{
 		Name:  "compress",
 		Usage: "if prevents sending the \"Accept-Encoding: gzip\" header",
-	})
-
-	//开启心跳
-	util.AddFlagBool(cli.BoolFlag{
-		Name:  "hb",
-		Usage: "open heartbreat watcher",
 	})
 
 	util.AddFlagString(cli.StringFlag{
