@@ -36,7 +36,7 @@ GLOBAL OPTIONS:
 
 #### 运行参考
 
-一、命令行运行方式
+一、GET默认方式
 
 ```
  $ ./kapok -c 200 -d 60 http://192.168.100.101/test/data/send.do
