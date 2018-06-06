@@ -2,11 +2,11 @@ package app
 
 import (
 	"github.com/codegangsta/cli"
+	kapok "github.com/domac/kapok/core"
+	"github.com/domac/kapok/hb"
+	router "github.com/domac/kapok/routes"
+	"github.com/domac/kapok/util"
 	"github.com/gin-gonic/gin"
-	kapok "github.com/phillihq/kapok/core"
-	"github.com/phillihq/kapok/hb"
-	router "github.com/phillihq/kapok/routes"
-	"github.com/phillihq/kapok/util"
 	"os"
 )
 

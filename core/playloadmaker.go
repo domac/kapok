@@ -18,9 +18,9 @@ func CreatePlayLoad(c *cli.Context, url string) error {
 	timeout := c.Int("t")
 	method := c.String("m")
 	header := c.String("H")
-	ka := c.Bool("k")
+	disableka := c.Bool("disableka")
 	compress := c.Bool("compress")
-	res, err := Playload(url, conn_num, duration, timeout, method, header, ka, compress)
+	res, err := Playload(url, conn_num, duration, timeout, method, header, disableka, compress)
 	if err != nil {
 		return err
 	}
@@ -36,7 +36,7 @@ func Playload(
 	timeout int,
 	method string,
 	header string,
-	ka bool,
+	disableka bool,
 	co bool) (string, error) {
 
 	//检查URL的合法性
@@ -56,7 +56,7 @@ func Playload(
 	fmt.Printf("Running %vs %v\n%v connection(s) running concurrently\n", duration, testUrl, concurrecy)
 
 	worker := NewWorker(testUrl, concurrecy, duration,
-		timeout, header, method, statsChann, ka, co)
+		timeout, header, method, statsChann, disableka, co)
 
 	for i := 0; i < concurrecy; i++ {
 		go worker.RunSingleNode()

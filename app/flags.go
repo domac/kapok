@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/phillihq/kapok/util"
+	"github.com/domac/kapok/util"
 )
 
 //参数初始化
@@ -72,8 +72,8 @@ func flagsInit() {
 
 	//是否开启 keep-alived
 	util.AddFlagBool(cli.BoolFlag{
-		Name:  "k",
-		Usage: "if keep-alives are disabled",
+		Name:  "disableka",
+		Usage: "disable keep-alives",
 	})
 
 	//是否压缩

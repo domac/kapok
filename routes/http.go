@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/codegangsta/cli"
+	"github.com/domac/kapok/handler"
 	"github.com/gin-gonic/gin"
-	"github.com/phillihq/kapok/handler"
 	"net/http"
 )
 

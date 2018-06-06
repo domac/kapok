@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	"github.com/phillihq/kapok/util"
+	"github.com/domac/kapok/util"
 	"time"
 )
 

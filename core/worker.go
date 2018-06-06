@@ -3,10 +3,11 @@ package core
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/phillihq/kapok/util"
+	"github.com/domac/kapok/util"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -36,15 +37,15 @@ func NewWorker(
 	header string,
 	method string,
 	statsChann chan *Stats,
-	ka bool,
+	disableka bool,
 	co bool) (worker *Worker) {
 	worker = &Worker{duration, concurrecy, testUrl, header,
-		method, statsChann, timeout, co, ka, 0}
+		method, statsChann, timeout, co, disableka, 0}
 	return
 }
 
 //HTTP请求
-func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, num2x int, num5x int, duration time.Duration) {
+func DoRequest(httpClient *http.Client, headers map[string]string, method, loadUrl string) (respSize int, num2x int, num5x int, duration time.Duration) {
 	respSize = -1
 	duration = -1
 	num5x = 0
@@ -57,6 +58,11 @@ func DoRequest(httpClient *http.Client, method, loadUrl string) (respSize int, n
 		return
 	}
 	req.Header.Add("User-Agent", USER_AGENT)
+
+	for k, v := range headers {
+		req.Header.Set(k, v)
+	}
+
 	start := time.Now()
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -118,9 +124,21 @@ func (w *Worker) RunSingleNode() {
 		TLSClientConfig:       tlsConfig,
 	}
 
+	httpClient.Timeout = time.Second * time.Duration(w.duration)
+
+	//增加对headers的处理
+	sets := strings.Split(w.header, ";")
+	headerMap := make(map[string]string)
+	for i := range sets {
+		split := strings.SplitN(sets[i], ":", 2)
+		if len(split) == 2 {
+			headerMap[split[0]] = split[1]
+		}
+	}
+
 	//持续间隔
 	for time.Since(start).Seconds() <= float64(w.duration) && atomic.LoadInt32(&w.interrupted) == 0 {
-		respSize, num2x, num5x, reqDur := DoRequest(httpClient, w.method, w.testUrl)
+		respSize, num2x, num5x, reqDur := DoRequest(httpClient, headerMap, w.method, w.testUrl)
 		if respSize > 0 {
 			stats.RespSize += int64(respSize)
 			stats.Duration += reqDur

@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"github.com/domac/kapok/core"
 	"github.com/gin-gonic/gin"
-	"github.com/phillihq/kapok/core"
 	"strconv"
 )
 
@@ -14,11 +14,11 @@ func Benchmark(c *gin.Context) string {
 	method := getStringValue(c, "method")
 	header := getStringValue(c, "header")
 
-	ka := getStringValue(c, "keepalive")
+	disableka := getStringValue(c, "keepalive")
 	co := getStringValue(c, "compress")
 
 	keepalive := false
-	if ka == "1" {
+	if disableka == "1" {
 		keepalive = true
 	}
 	compress := false

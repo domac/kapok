@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/phillihq/kapok/app"
+	"github.com/domac/kapok/app"
 	"runtime"
 )
 
