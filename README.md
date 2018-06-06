@@ -45,7 +45,13 @@ GLOBAL OPTIONS:
 二、POST方式
 
 ```
-$ ./kapok -m GET  -c 2 -d 30 -dataFile=/apps/body.json -H  'Content-Seq:444;TEST-num:cccxxx'  'http://192.168.100.101/test/data/send.do'
+$ ./kapok -m POST  -c 2 -d 30 -dataFile=/apps/body.json 'http://192.168.100.101/test/data/send.do'
+```
+
+三、自定义Heaer方式
+
+```
+$ ./kapok  -c 2 -d 30 -dataFile=/apps/body.json -H  'Content-Seq:001;App-Type:phone'  'http://192.168.100.101/test/data/send.do'
 ```
 
 结果输出示例：
