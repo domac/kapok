@@ -8,32 +8,32 @@ a simple http/https benchmark utility
 ```
 $ go run main.go -help
 
-NAME:
+AME:
    kapok - a simple http/https benchmark utility
 
 USAGE:
-   ./kapok [global options] command [command options] [arguments...]
+   main [global options] command [command options] [arguments...]
 
 VERSION:
-   0.2.0
+   0.1.1
 
 COMMANDS:
    help, h	Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   -k                   if keep-alives are disabled                                                                                                                                                                                                                         
-   -H                   the http headers sent to the target url                                                                                                                        
-   -c "10"              number of concurrent connections to use                                                                                                                        
-   -d "10"              duration of test in seconds                                                                                                                                    
-   -t "1000"            socket/request timeout in (ms)                                                                                                                                 
-   -m "GET"             http method      
-   --compress           if prevents sending the "Accept-Encoding: gzip" header                                                                                                         
-   --hb                 open heartbreat watcher, it need use --web first                                                                                                                                       
-   --web                start the application in web                                                                                                                                   
-   --port "9090"        the port for web application [$KAPOK_PORT]                                                                                                                     
-   --debug              open the debug mode                                                                                                                                                                                                     
-   --help, -h           show help                                                                                                                                                      
-   --version, -v        print the version 
+   --debug		open the debug mode
+   -d "10"		duration of test in seconds
+   -t "1000"		socket/request timeout in (ms)
+   -m "GET"		http method
+   -H 			the http headers sent to the target url
+   --disableka		disable keep-alives
+   --compress		if prevents sending the "Accept-Encoding: gzip" header
+   --web		start the application in web
+   --port "9090"	the port for web application [$KAPOK_PORT]
+   -c "10"		number of concurrent connections to use
+   --hb			open heartbreat watcher
+   --help, -h		show help
+   --version, -v	print the version
 ```
 
 #### 运行参考
@@ -81,7 +81,7 @@ Number of Errors:       0
 
 - header:           the http headers sent to the target url
 
-- keepalive:        if keep-alives are disabled when value is "1"  default : "0"
+- disableka:        if keep-alives are disabled 
 
 - compress:         if prevents sending the "Accept-Encoding: gzip" header when value is "1"  default : "0"
 
