@@ -7,14 +7,6 @@ import (
 
 //参数初始化
 func flagsInit() {
-	//配置文件参数
-	// util.AddFlagString(cli.StringFlag{
-	// 	Name:   "config",
-	// 	EnvVar: "KAPOK_CONFIG",
-	// 	Value:  "config.json",
-	// 	Usage:  "the path of your config file",
-	// })
-
 	//是否以web的形式启动
 	util.AddFlagBool(cli.BoolFlag{
 		Name:  "web",
@@ -86,5 +78,11 @@ func flagsInit() {
 	util.AddFlagBool(cli.BoolFlag{
 		Name:  "hb",
 		Usage: "open heartbreat watcher",
+	})
+
+	util.AddFlagString(cli.StringFlag{
+		Name:  "dataFile",
+		Value: "",
+		Usage: "load the par which store in the file",
 	})
 }

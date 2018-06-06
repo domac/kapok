@@ -1,6 +1,7 @@
 package core
 
 import (
+	"bytes"
 	"crypto/tls"
 	"fmt"
 	"github.com/domac/kapok/util"
@@ -27,6 +28,7 @@ type Worker struct {
 	compress    bool
 	keepAlive   bool
 	interrupted int32
+	bodyReadedr []byte
 }
 
 func NewWorker(
@@ -38,25 +40,26 @@ func NewWorker(
 	method string,
 	statsChann chan *Stats,
 	disableka bool,
-	co bool) (worker *Worker) {
+	co bool, bodyReadedr []byte) (worker *Worker) {
 	worker = &Worker{duration, concurrecy, testUrl, header,
-		method, statsChann, timeout, co, disableka, 0}
+		method, statsChann, timeout, co, disableka, 0, bodyReadedr}
 	return
 }
 
 //HTTP请求
-func DoRequest(httpClient *http.Client, headers map[string]string, method, loadUrl string) (respSize int, num2x int, num5x int, duration time.Duration) {
+func DoRequest(httpClient *http.Client, headers map[string]string, method, loadUrl string, bodydata []byte) (respSize int, num2x int, num5x int, duration time.Duration) {
 	respSize = -1
 	duration = -1
 	num5x = 0
 	num2x = 0
 	loadUrl = util.EscapeUrlStr(loadUrl)
 
-	req, err := http.NewRequest(method, loadUrl, nil)
+	req, err := http.NewRequest(method, loadUrl, bytes.NewBuffer(bodydata))
 	if err != nil {
 		fmt.Println("An error occured doing request", err)
 		return
 	}
+
 	req.Header.Add("User-Agent", USER_AGENT)
 
 	for k, v := range headers {
@@ -138,7 +141,7 @@ func (w *Worker) RunSingleNode() {
 
 	//持续间隔
 	for time.Since(start).Seconds() <= float64(w.duration) && atomic.LoadInt32(&w.interrupted) == 0 {
-		respSize, num2x, num5x, reqDur := DoRequest(httpClient, headerMap, w.method, w.testUrl)
+		respSize, num2x, num5x, reqDur := DoRequest(httpClient, headerMap, w.method, w.testUrl, w.bodyReadedr)
 		if respSize > 0 {
 			stats.RespSize += int64(respSize)
 			stats.Duration += reqDur

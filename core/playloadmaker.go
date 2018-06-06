@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/codegangsta/cli"
+	"github.com/domac/kapok/util"
+	"io/ioutil"
 	"net/url"
 	"os"
 	"os/signal"
@@ -20,7 +22,10 @@ func CreatePlayLoad(c *cli.Context, url string) error {
 	header := c.String("H")
 	disableka := c.Bool("disableka")
 	compress := c.Bool("compress")
-	res, err := Playload(url, conn_num, duration, timeout, method, header, disableka, compress)
+
+	dataFile := c.String("dataFile")
+
+	res, err := Playload(url, conn_num, duration, timeout, method, header, disableka, compress, dataFile)
 	if err != nil {
 		return err
 	}
@@ -37,7 +42,7 @@ func Playload(
 	method string,
 	header string,
 	disableka bool,
-	co bool) (string, error) {
+	co bool, dataFile string) (string, error) {
 
 	//检查URL的合法性
 	pUrl, err := url.Parse(testUrl)
@@ -55,8 +60,16 @@ func Playload(
 
 	fmt.Printf("Running %vs %v\n%v connection(s) running concurrently\n", duration, testUrl, concurrecy)
 
+	//body reader
+	var data []byte
+	if dataFile != "" && util.CheckDataFileExist(dataFile) == nil {
+		f, _ := os.Open(dataFile)
+		defer f.Close()
+		data, _ = ioutil.ReadAll(f)
+	}
+
 	worker := NewWorker(testUrl, concurrecy, duration,
-		timeout, header, method, statsChann, disableka, co)
+		timeout, header, method, statsChann, disableka, co, data)
 
 	for i := 0; i < concurrecy; i++ {
 		go worker.RunSingleNode()
