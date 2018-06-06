@@ -41,7 +41,7 @@ GLOBAL OPTIONS:
 一、命令行运行方式
 
 ```
- $ ./pakop -c 200 -d 60 http://192.168.100.101/test/data/get.do
+ $ ./kapok -c 200 -d 60 http://192.168.100.101/test/data/get.do
 ```
 
 结果输出示例：
