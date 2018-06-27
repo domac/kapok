@@ -98,6 +98,10 @@ func DoRequest(httpClient *http.Client, headers map[string]string, method, loadU
 		respSize = int(resp.ContentLength) + int(util.EstimateHttpHeadersSize(resp.Header))
 	} else if resp.StatusCode >= 500 {
 		num5x += 1
+	} else if resp.StatusCode == http.StatusMethodNotAllowed {
+		duration = time.Since(start)
+		respSize = len(body) + int(util.EstimateHttpHeadersSize(resp.Header))
+		num2x += 1
 	} else {
 		//fmt.Println("received status code", resp.StatusCode, "from", resp.Header, "content", string(body), req)
 	}
